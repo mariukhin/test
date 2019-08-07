@@ -1,30 +1,20 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const timestamp = require('../modules/timestamp');
 
 const userSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  telephone: String,
   nickName: String,
-  location: String,
   password: String,
   email: String,
-  favoriteProducts: [{
+  authorised: Boolean,
+  likes: [{
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Product'
+    ref: 'Like'
   }],
-  viewedProducts: [{
+  history: [{
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Product'
+    ref: 'History'
   }],
-  orders: [{
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Order'
-  }]
 });
-
-userSchema.plugin(timestamp);
 
 const User = mongoose.model('User', userSchema);
 

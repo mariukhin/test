@@ -1,27 +1,26 @@
-const Order = require('../../models/order');
+const Like = require('../../models/like');
 
-const getOrder = (request, response) => {
+const deleteLike = (request, response) => {
   const id = request.params.id;
-  const sendResponse = (order) => {
+  const sendResponse = () => {
     response.status(200);
     response.json({
       status: 'success',
-      order: order
     });
   };
   const sendError = () => {
     response.status(400);
     response.json({
       status: 'error',
-      text: 'there is no such order'
+      text: 'there is no such like'
     });
   };
 
-  const findOrder = Order.findById(id);
+  const deleteLike = Like.deleteOne(id);
   
-  findOrder
+  deleteLike
     .then(sendResponse)
     .catch(sendError);
 };
 
-module.exports = getOrder;
+module.exports = deleteLike;

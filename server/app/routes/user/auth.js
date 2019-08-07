@@ -10,20 +10,41 @@ const errorResp = {
 
 const passwMatches = (passw1, hash) => bcrypt.compareSync(passw1, hash);
 
-const generateToken = paramsForTokenGeneration => {
-  const secretKey = app.get('superSecret');
-
-  return jwt.sign(paramsForTokenGeneration, secretKey, {
-    expiresIn: 60 * 60 * 24
-  })
-};
-
 const authenticate = (req, res) => {
-  const { userId, password } = req.body;
-  
+  const userId = req.body.userId;
+  const password = req.body.password;
+
   User.findById(userId, onFind);
 
-  function onFind(err, user) {
+  const sendError = () => {
+    res.status(400);
+    res.json({
+      status: 'error',
+      text: 'there is no such user'
+    });
+  };
+
+  const sendResponse = (user) => {
+    if (!user) {
+      return sendError();
+    }
+  
+    res.json({
+      status: 'success',
+      user: user
+    });
+  };
+
+  User.findOneAndUpdate({ _id: userId }, { authorised: true},
+    function(err, hist) {
+        if (err) throw err;
+        return hist;
+    }
+  )
+  .then(sendResponse)
+  .catch(sendError)
+
+  function onFind(err, user){
     if (err) throw err;
 
     const correctPassword = passwMatches(password, user.password);
@@ -31,19 +52,6 @@ const authenticate = (req, res) => {
       res.json(errorResp);
       return;
     }
-
-    const payload = {
-      password, userId
-    };
-
-    const token = generateToken(payload);
-
-    res.json({
-      success: true,
-      message: 'Enjoy your token!',
-      token: token,
-    });
-
   }
 };
 

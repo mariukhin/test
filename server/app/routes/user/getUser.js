@@ -17,7 +17,7 @@ const getUser = (request, response) => {
     });
   };
 
-  const findUser = User.findById(id).populate('favoriteProducts').populate('viewedProducts').populate('orders');
+  const findUser = User.findById(id).populate('likes').populate('history');
   
   findUser
     .then(sendResponse)

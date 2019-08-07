@@ -6,7 +6,7 @@ const config = {
   secret: 'secret-key',
   dbUser,
   dbPassword,
-  databaseUrl: `mongodb+srv://${dbUser}:${dbPassword}@cluster0-dldrs.mongodb.net/habr-project`
+  databaseUrl: `mongodb+srv://${dbUser}:${dbPassword}@cluster0-dldrs.mongodb.net/nodejs-test`
 };
 
 module.exports = config;

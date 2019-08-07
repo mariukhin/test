@@ -1,8 +1,9 @@
 const User = require('../../models/user');
 
 const getCurrent = (req, res) => {
-  const userId = req.decoded.userId;
-  User.findById(userId, onFind).populate('favoriteProducts').populate('viewedProducts').populate('orders');
+  // const userId = req.body.userId;
+  // console.log(req.data);
+  User.find({ authorised: true }, onFind).populate('likes').populate('history');
 
   function onFind(err, user) {
     if (err) {

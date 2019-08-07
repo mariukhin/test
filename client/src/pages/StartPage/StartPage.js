@@ -4,7 +4,7 @@ import { mapper } from '../../services/helper';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import Gallery from '../../components/Gallery/Gallery';
 import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn';
-import fetchPics from '../../services/pic-api';
+import { fetchCurrentUser, fetchPics } from '../../services/pic-api';
 import styles from './StartPage.module.css';
 
 
@@ -17,8 +17,9 @@ export default class StartPage extends Component {
   };
 
   componentDidMount() {
-    this.fetchLikedItems();
-    this.fetchItems('popular');
+    // this.fetchLikedItems();
+    this.fetchInfo();
+    // this.fetchItems('popular');
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -55,6 +56,13 @@ export default class StartPage extends Component {
           pics: [...pics, ...mapper(newPics)],
         });
       })
+      .catch(this.reset())
+      .finally(() => this.setState({ isLoadMore: true }));
+  };
+
+  fetchInfo = () => {
+    fetchCurrentUser()
+      .then(newPics => this.setState({ pics: newPics[0].likes }))
       .catch(this.reset())
       .finally(() => this.setState({ isLoadMore: true }));
   };
