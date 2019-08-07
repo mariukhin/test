@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './GalleryItem.module.css';
+import { likePhoto, dislikePhoto } from '../../services/pic-api';
 
 export default class GalleryItem extends Component {
   state = {
@@ -11,10 +12,22 @@ export default class GalleryItem extends Component {
     url: PropTypes.string.isRequired,
   };
 
+  // componentDidUpdate(prevProps, prevState) {}
+
   onModalHandle = () => {
+    const { clicked } = this.state;
+    const { userId, url } = this.props;
     this.setState(state => ({
       clicked: !state.clicked,
     }));
+    if (clicked) {
+      likePhoto(userId, url);
+      console.log(userId);
+      // updateUser();
+    }
+    // } else {
+    //   this.dislikePhoto();
+    // }
   };
 
   render() {

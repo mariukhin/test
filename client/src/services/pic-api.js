@@ -14,3 +14,11 @@ export function fetchCurrentUser() {
   const RESULT_URL = `${BACKEND_URL}/auth/current`;
   return axios.get(RESULT_URL).then(response => response.data.user);
 }
+export function likePhoto(userId, url) {
+  const RESULT_URL = `${BACKEND_URL}/like`;
+  console.log(userId);
+  return axios
+    .post(RESULT_URL, { data: { userId, likeItemUrl: url } })
+    .then(response => console.log(response.data))
+    .catch(err => console.log(err));
+}

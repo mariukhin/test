@@ -14,12 +14,13 @@ export default class StartPage extends Component {
     page: 1,
     inputVal: '',
     isLoadMore: false,
+    currentUserId: '',
   };
 
   componentDidMount() {
     // this.fetchLikedItems();
     this.fetchInfo();
-    // this.fetchItems('popular');
+    this.fetchItems('popular');
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -60,9 +61,18 @@ export default class StartPage extends Component {
       .finally(() => this.setState({ isLoadMore: true }));
   };
 
+  handleLikePhoto = () => {
+    
+  }
+
   fetchInfo = () => {
     fetchCurrentUser()
-      .then(newPics => this.setState({ pics: newPics[0].likes }))
+      .then(newPics => {
+        this.setState({
+          pics: newPics.likes,
+          currentUserId: newPics._id,
+        });
+      })
       .catch(this.reset())
       .finally(() => this.setState({ isLoadMore: true }));
   };
@@ -81,7 +91,7 @@ export default class StartPage extends Component {
   };
 
   render() {
-    const { pics, isLoadMore } = this.state;
+    const { pics, isLoadMore, currentUserId } = this.state;
     const length = pics.length > 0;
     return (
       <div>
@@ -91,7 +101,7 @@ export default class StartPage extends Component {
             History
           </NavLink>
         </div>
-        {length && <Gallery cards={pics} />}
+        {length && <Gallery cards={pics} userId={currentUserId} />}
         {isLoadMore && length && <LoadMoreBtn onLoadMore={this.loadMore} />}
       </div>
     );

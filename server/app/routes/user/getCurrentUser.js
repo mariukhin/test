@@ -3,7 +3,7 @@ const User = require('../../models/user');
 const getCurrent = (req, res) => {
   // const userId = req.body.userId;
   // console.log(req.data);
-  User.find({ authorised: true }, onFind).populate('likes').populate('history');
+  User.findById("5d4a976098783f1ac48511fa", onFind).populate('likes').populate('history');
 
   function onFind(err, user) {
     if (err) {
@@ -17,6 +17,7 @@ const getCurrent = (req, res) => {
         status: 'success',
         user: user
     });
+    console.log(user);
   }
 };
 
