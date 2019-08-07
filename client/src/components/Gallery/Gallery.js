@@ -12,12 +12,5 @@ const Gallery = ({ cards }) => (
 );
 Gallery.propTypes = {
   cards: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  // cards: PropTypes.arrayOf(
-  //   PropTypes.shape({
-  //     id: PropTypes.number.isRequired,
-  //     webformatURL: PropTypes.string.isRequired,
-  //     largeImageURL: PropTypes.string.isRequired,
-  //   }).isRequired,
-  // ).isRequired,
 };
 export default Gallery;
